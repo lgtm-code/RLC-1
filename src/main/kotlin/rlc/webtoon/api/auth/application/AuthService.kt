@@ -6,15 +6,15 @@ import java.util.Date
 
 @Service
 class AuthService(
-        private val jwtProperties: JwtProperties,
-        private val jwtService: JwtService
+        private val jwtService: JwtService,
+        private val jwtProperties: JwtProperties
 ) {
 
-    private fun createRefreshToken(userId: String) =
-            jwtService.generate(userId, getRefreshTokenExpiration())
+     fun createRefreshToken(accountId: String) =
+            jwtService.generate(accountId, getRefreshTokenExpiration())
 
-    private fun createAccessToken(userId: String) =
-            jwtService.generate(userId, getAccessTokenExpiration())
+     fun createAccessToken(accountId: String) =
+            jwtService.generate(accountId, getAccessTokenExpiration())
 
     private fun getRefreshTokenExpiration(): Date =
             Date(System.currentTimeMillis() + jwtProperties.refreshTokenExpiration)

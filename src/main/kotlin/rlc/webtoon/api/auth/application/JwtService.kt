@@ -16,11 +16,13 @@ class JwtService(
             jwtProperties.key.toByteArray()
     )
 
-    fun generate(userId: String,
-                 expiration: Date,
-                 additionalClaims: Map<String, Any> = emptyMap()
+    fun generate(
+            accountId: String,
+            expiration: Date,
+            additionalClaims: Map<String, Any> = emptyMap()
     ): String =
             Jwts.builder()
+                    .subject(accountId)
                     .claims()
                     .issuedAt(Date(System.currentTimeMillis()))
                     .expiration(expiration)
@@ -29,12 +31,15 @@ class JwtService(
                     .signWith(secretKey)
                     .compact()
 
-    fun isValid(jwt: String, userId: String): Boolean {
+    fun isValid(
+            jwt: String,
+            accountId: String
+    ): Boolean {
         val extractedUserId: String = extractUserId(jwt)
-        return userId == extractedUserId && !isExpired(jwt)
+        return accountId == extractedUserId && !isExpired(jwt)
     }
 
-    fun extractUserId(jwt: String): String =
+    private fun extractUserId(jwt: String): String =
             getAllClaims(jwt)
                     .subject
 
