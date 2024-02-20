@@ -36,22 +36,27 @@ class JwtService(
             accountId: String
     ): Boolean {
         val extractedUserId: String = extractUserId(jwt)
+
         return accountId == extractedUserId && !isExpired(jwt)
     }
+
 
     private fun extractUserId(jwt: String): String =
             getAllClaims(jwt)
                     .subject
+
 
     private fun isExpired(jwt: String): Boolean =
             getAllClaims(jwt)
                     .expiration
                     .before(Date(System.currentTimeMillis()))
 
+
     private fun getAllClaims(jwt: String): Claims {
         val parser = Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
+
         return parser
                 .parseSignedClaims(jwt)
                 .payload
