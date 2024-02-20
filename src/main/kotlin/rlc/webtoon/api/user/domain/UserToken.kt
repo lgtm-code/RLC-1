@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import rlc.webtoon.api.common.BaseEntity
 
@@ -12,6 +13,7 @@ import rlc.webtoon.api.common.BaseEntity
 @Entity
 class UserToken(
         @JoinColumn(name = "userId")
+        @ManyToOne
         val user: User,
         val refreshToken: String
 ) : BaseEntity() {

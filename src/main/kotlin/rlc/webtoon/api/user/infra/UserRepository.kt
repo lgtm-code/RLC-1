@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import rlc.webtoon.api.user.domain.User
 
 interface UserRepository : JpaRepository<User, Long> {
-    fun findByAccountId(accountId: String): User?
+    fun findByAccountId(accountId: String): User
 
+    fun existsUserByAccountId(accountId: String):Boolean
 }

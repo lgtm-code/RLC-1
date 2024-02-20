@@ -6,8 +6,8 @@ data class SignUpRequest(
         val accountId: String,
         val password: String
 ) {
-    fun toUser(): User = User(
+    fun toUser(hashPassword:String): User = User(
             accountId = accountId,
-            password = password
+            password = hashPassword
     )
 }
