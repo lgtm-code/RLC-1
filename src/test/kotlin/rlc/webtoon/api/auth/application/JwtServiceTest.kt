@@ -17,6 +17,19 @@ class JwtServiceTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("JWT에서 accountId를 추출한다.")
+    fun extractAccountIdFromJwt() {
+        // given
+        val jwt = generateJWT(1000)
+
+        // when
+        val extractedAccountId: String = jwtService.extractAccountId(jwt)
+
+        // then
+        assertEquals(extractedAccountId, ACCOUNT_ID)
+    }
+
+    @Test
     @DisplayName("JWT를 생성한다.")
     fun generate() {
         // given
@@ -33,7 +46,7 @@ class JwtServiceTest @Autowired constructor(
         val jwt = generateJWT(1000)
 
         // when then
-        assertTrue(jwtService.isValid(jwt, ACCOUNT_ID))
+        assertTrue(jwtService.isValid(jwt))
     }
 
     @Test
@@ -44,7 +57,7 @@ class JwtServiceTest @Autowired constructor(
 
         // when then
         assertThrows(ExpiredJwtException::class.java) {
-            jwtService.isValid(jwt, ACCOUNT_ID)
+            jwtService.isValid(jwt)
         }
     }
 
