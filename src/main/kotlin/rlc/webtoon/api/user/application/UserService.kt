@@ -1,6 +1,5 @@
 package rlc.webtoon.api.user.application
 
-import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import rlc.webtoon.api.auth.application.AuthService
@@ -12,7 +11,6 @@ import rlc.webtoon.api.user.infra.UserRepository
 import rlc.webtoon.api.user.presentation.dto.LoginRequest
 import rlc.webtoon.api.user.presentation.dto.LoginResponse
 import rlc.webtoon.api.user.presentation.dto.SignUpRequest
-import java.lang.IllegalArgumentException
 
 
 @Service

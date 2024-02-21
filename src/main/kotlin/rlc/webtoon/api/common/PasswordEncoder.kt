@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component
 class PasswordEncoder {
 
     fun bcrypt(password: String): String {
+        if(password.isBlank()){
+            throw ApiError(Error.BLANK_PASSWORD)
+        }
         val salt = BCrypt.gensalt()
         return BCrypt.hashpw(password, salt)
     }

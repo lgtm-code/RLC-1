@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import org.hibernate.annotations.SQLRestriction
 import rlc.webtoon.api.common.BaseEntity
 import java.lang.IllegalArgumentException
 
@@ -18,12 +19,10 @@ class User(
         val accountId: String,
         val password: String
 ) : BaseEntity() {
+
     init {
         require(accountId.isNotBlank()) {
             "accountId 필수 값 입니다."
-        }
-        require(password.isNotBlank()) {
-            "password 필수 값 입니다."
         }
     }
 
@@ -35,6 +34,9 @@ class User(
     val tokens: MutableList<UserToken> = mutableListOf()
 
     fun addToken(refreshToken: String) {
+
+        this.tokens.forEach { it.delete() }
+
         val token = UserToken(
                 user = this,
                 refreshToken = refreshToken
@@ -42,4 +44,5 @@ class User(
 
         this.tokens.add(token)
     }
+
 }

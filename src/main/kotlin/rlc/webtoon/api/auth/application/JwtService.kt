@@ -32,16 +32,13 @@ class JwtService(
                     .compact()
 
     fun isValid(
-            jwt: String,
-            accountId: String
+            jwt: String
     ): Boolean {
-        val extractedUserId: String = extractUserId(jwt)
-
-        return accountId == extractedUserId && !isExpired(jwt)
+        return !isExpired(jwt)
     }
 
 
-    private fun extractUserId(jwt: String): String =
+    fun extractAccountId(jwt: String): String =
             getAllClaims(jwt)
                     .subject
 
