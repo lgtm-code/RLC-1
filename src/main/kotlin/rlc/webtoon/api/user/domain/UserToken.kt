@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.SQLRestriction
-import rlc.webtoon.api.common.BaseEntity
+import rlc.webtoon.api.common.domain.BaseEntity
 
 @SQLRestriction("isDeleted = false")
 @Table(name = "user_tokens")

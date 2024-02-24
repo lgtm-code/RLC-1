@@ -9,16 +9,19 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 import rlc.webtoon.api.auth.Authenticated
 import rlc.webtoon.api.auth.application.JwtService
-import rlc.webtoon.api.common.ApiError
-import rlc.webtoon.api.common.Error
+import rlc.webtoon.api.common.client.ApiError
+import rlc.webtoon.api.common.client.Error
 
 @Configuration
 class JwtArgumentResolver(
         private val jwtService: JwtService
 ) : HandlerMethodArgumentResolver {
+    companion object {
+        const val AUTHORIZATION = "AUTHORIZATION"
+    }
 
     override fun supportsParameter(parameter: MethodParameter): Boolean {
-        
+
         if (parameter.getParameterAnnotation(Authenticated::class.java) == null) {
             return false
         }
@@ -45,7 +48,7 @@ class JwtArgumentResolver(
 
     private fun getJwt(request: HttpServletRequest): String {
 
-        val authorization: String? = request.getHeader("Authorization")
+        val authorization: String? = request.getHeader(AUTHORIZATION)
 
         return authorization?.takeIf { it.startsWith("Bearer ") }?.substring(7) ?: ""
     }

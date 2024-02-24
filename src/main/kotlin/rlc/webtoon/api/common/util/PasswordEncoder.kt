@@ -1,7 +1,9 @@
-package rlc.webtoon.api.common
+package rlc.webtoon.api.common.util
 
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.stereotype.Component
+import rlc.webtoon.api.common.client.ApiError
+import rlc.webtoon.api.common.client.Error
 
 @Component
 class PasswordEncoder {

@@ -4,14 +4,18 @@ import io.jsonwebtoken.ExpiredJwtException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import java.util.Date
+import rlc.webtoon.api.config.JwtProperties
+import java.util.*
 
-@SpringBootTest
-class JwtServiceTest @Autowired constructor(
-        val jwtService: JwtService
-) {
+class JwtServiceTest {
+
+    private val jwtProperties = JwtProperties(
+            "testtesttesttesttesttesttesttesttesttest",
+            1000000L,
+            1000000L
+    )
+    private val jwtService = JwtService(jwtProperties)
+
     companion object {
         const val ACCOUNT_ID = "testUser1"
     }

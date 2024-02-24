@@ -1,4 +1,4 @@
-package rlc.webtoon.api.common
+package rlc.webtoon.api.common.domain
 
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass

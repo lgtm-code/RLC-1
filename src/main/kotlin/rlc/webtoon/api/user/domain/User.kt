@@ -8,9 +8,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import org.hibernate.annotations.SQLRestriction
-import rlc.webtoon.api.common.BaseEntity
-import java.lang.IllegalArgumentException
+import rlc.webtoon.api.common.domain.BaseEntity
 
 @Table(name = "users")
 @Entity

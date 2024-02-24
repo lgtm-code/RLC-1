@@ -1,4 +1,4 @@
-package rlc.webtoon.api.common
+package rlc.webtoon.api.common.client
 
 import org.springframework.http.HttpStatus
 import java.lang.RuntimeException

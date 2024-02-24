@@ -2,11 +2,14 @@ package rlc.webtoon.api.auth.application
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import rlc.webtoon.api.common.ApiError
-import rlc.webtoon.api.common.Error
+import rlc.webtoon.api.common.client.ApiError
+import rlc.webtoon.api.common.client.Error
+import rlc.webtoon.api.common.util.PasswordEncoder
 import rlc.webtoon.api.config.JwtProperties
 import rlc.webtoon.api.user.domain.User
 import rlc.webtoon.api.user.infra.UserRepository
+import rlc.webtoon.api.user.presentation.dto.LoginRequest
+import rlc.webtoon.api.user.presentation.dto.LoginResponse
 import java.util.Date
 
 @Service
@@ -14,8 +17,29 @@ import java.util.Date
 class AuthService(
         private val jwtService: JwtService,
         private val jwtProperties: JwtProperties,
-        private val userRepository: UserRepository
+        private val userRepository: UserRepository,
+        private val passwordEncoder: PasswordEncoder
 ) {
+
+    @Transactional
+    fun login(request: LoginRequest): LoginResponse {
+        val user: User = userRepository.findByAccountId(request.accountId)
+
+        matchPassword(
+                rawPassword = request.password,
+                hashedPassword = user.password
+        )
+
+        val accessToken: String = createAccessToken(user.accountId)
+        val refreshToken: String = createRefreshToken(user.accountId)
+
+        user.addToken(refreshToken)
+
+        return LoginResponse(
+                accessToken = accessToken,
+                refreshToken = refreshToken,
+        )
+    }
 
     @Transactional
     fun refreshToken(accountId: String, refreshToken: String): String {
@@ -49,4 +73,11 @@ class AuthService(
     private fun getAccessTokenExpiration(): Date =
             Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration)
 
+    private fun matchPassword(rawPassword: String, hashedPassword: String) {
+
+        if (!passwordEncoder.match(rawPassword, hashedPassword)) {
+            throw ApiError(Error.INVALID_PASSWORD)
+        }
+
+    }
 }
