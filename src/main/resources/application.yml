@@ -38,6 +38,6 @@ jwt:
   refresh-token-expiration: 86400000  # 24시간
 
 portone:
-  key: 2407268233611562
-  secret: Ik2PHBLWyBPQJc7582xIhY6LqfVEb0oPuBf5vbtvcE1ktOyVttIdfeVck86JkvdZlGsUUkRX6ACrWAXi
+  key:
+  secret:
 
