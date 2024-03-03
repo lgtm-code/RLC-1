@@ -33,7 +33,11 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
     implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
     implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
+    // FEIGN
+    implementation("io.github.openfeign:feign-micrometer")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
+    // H2
     runtimeOnly("com.h2database:h2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -45,6 +49,13 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "21"
     }
 }
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0")
+    }
+}
+
 
 tasks.withType<Test> {
     useJUnitPlatform()

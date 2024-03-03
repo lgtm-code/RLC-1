@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Configuration
 
 
 @Configuration
-@EnableConfigurationProperties(JwtProperties::class)
+@EnableConfigurationProperties(
+        JwtProperties::class,
+        PortOneProperties::class
+)
 class AppConfig {
 }
 
@@ -16,4 +19,10 @@ data class JwtProperties @ConstructorBinding constructor(
         val key: String,
         val accessTokenExpiration: Long,
         val refreshTokenExpiration: Long
+)
+
+@ConfigurationProperties(prefix = "portone")
+data class PortOneProperties(
+        val key: String,
+        val secret: String
 )

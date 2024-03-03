@@ -20,11 +20,6 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
 
-jwt:
-  key: thisisthesimplewebtoonservicejwtkey
-  access-token-expiration: 3600000  # 1시간
-  refresh-token-expiration: 86400000  # 24시간
-
 springdoc:
   swagger-ui:
     path: /webtoon-api
@@ -36,4 +31,13 @@ springdoc:
     path: /v3/api-docs
     enabled: true
   override-with-generic-response: false
+
+jwt:
+  key: thisisthesimplewebtoonservicejwtkey
+  access-token-expiration: 3600000  # 1시간
+  refresh-token-expiration: 86400000  # 24시간
+
+portone:
+  key: 2407268233611562
+  secret: Ik2PHBLWyBPQJc7582xIhY6LqfVEb0oPuBf5vbtvcE1ktOyVttIdfeVck86JkvdZlGsUUkRX6ACrWAXi
 
