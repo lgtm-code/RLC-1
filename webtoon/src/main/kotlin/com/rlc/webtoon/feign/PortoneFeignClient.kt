@@ -1,6 +1,7 @@
 package com.rlc.webtoon.feign
 
-import com.rlc.webtoon.dto.response.PortoneResponse
+import com.rlc.webtoon.dto.response.portone.PortoneAccessTokenResponse
+import com.rlc.webtoon.dto.response.portone.PortonePaymentResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestHeader
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestPart
 interface PortoneFeignClient {
 
     @PostMapping("/users/getToken")
-    fun getAccessToken(@RequestPart("imp_key")impKey: String, @RequestPart("imp_secret")impSecret: String): PortoneResponse
+    fun getAccessToken(@RequestPart("imp_key")impKey: String, @RequestPart("imp_secret")impSecret: String): PortoneAccessTokenResponse
 
     @PostMapping("/subscribe/payments/onetime")
     fun payment(
@@ -26,13 +27,13 @@ interface PortoneFeignClient {
         @RequestPart("birth")birth: String,
         @RequestPart("pwd_2digit")cardPassword: String,
         @RequestPart("name")productName: String,
-    ): PortoneResponse
+    ): PortonePaymentResponse
 
     @PostMapping("/payments/cancel")
     fun cancel(
         @RequestPart("imp_uid")impUid: String,
         @RequestPart("merchant_uid")merchantUid: String,
         @RequestPart("amount")price: Int,
-    ): PortoneResponse
+    ): PortonePaymentResponse
 
 }

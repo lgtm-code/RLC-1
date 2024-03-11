@@ -1,7 +1,8 @@
 package com.rlc.webtoon.service
 
 import com.rlc.webtoon.dto.request.PaymentDto
-import com.rlc.webtoon.dto.response.PortoneResponse
+import com.rlc.webtoon.dto.response.portone.PortonePaymentResponse
+import com.rlc.webtoon.dto.response.portone.PortoneAccessTokenResponse
 import com.rlc.webtoon.profile_test.TestProfilePortoneService
 import com.rlc.webtoon.service.inter.PortoneInterface
 import org.assertj.core.api.Assertions.*
@@ -22,13 +23,12 @@ class PortoneServiceTest @Autowired constructor(
     @DisplayName("아임포트 액세스 토큰이 정상 발급된다.")
     fun accessToken() {
 
-        val portoneResponse: PortoneResponse = portoneInterface.getAccessToken(
+        val portonePaymentResponse: PortoneAccessTokenResponse = portoneInterface.getAccessToken(
             impKey = "testKey",
             impSecret = "testSecret"
         )
 
-        assertThat(portoneResponse.code).isEqualTo(0)
-        assertThat(portoneResponse.message).isEqualTo("토큰발급 완료")
+        assertThat(portonePaymentResponse.code).isEqualTo(0)
     }
 
     @Test
@@ -36,31 +36,29 @@ class PortoneServiceTest @Autowired constructor(
     fun payment() {
         val paymentDto = PaymentDto.fixture()
 
-        val portoneResponse: PortoneResponse = portoneInterface.payment(
+        val portonePaymentResponse: PortonePaymentResponse = portoneInterface.payment(
             accessToken = "",
             merchantUid = UUID.randomUUID().toString(),
-            price = paymentDto.price,
+            price = paymentDto.productType.price,
             cardNumber = paymentDto.cardNumber,
             expiry = paymentDto.expiry,
             birth = paymentDto.birth,
             cardPassword = paymentDto.cardPassword,
-            productName = paymentDto.productName
+            productName = paymentDto.productType.productName
         )
 
-        assertThat(portoneResponse.code).isEqualTo(0)
-        assertThat(portoneResponse.message).isEqualTo("결제 완료")
+        assertThat(portonePaymentResponse.code).isEqualTo(0)
     }
 
     @Test
     @DisplayName("아임포트 결제 취소요청이 정상 처리된다.")
     fun cancel() {
-        val portoneResponse: PortoneResponse = portoneInterface.cancel(
+        val portonePaymentResponse: PortonePaymentResponse = portoneInterface.cancel(
             impUid = "testUid",
             merchantUid = UUID.randomUUID().toString(),
             price = 10
         )
 
-        assertThat(portoneResponse.code).isEqualTo(0)
-        assertThat(portoneResponse.message).isEqualTo("취소처리 완료")
+        assertThat(portonePaymentResponse.code).isEqualTo(0)
     }
 }

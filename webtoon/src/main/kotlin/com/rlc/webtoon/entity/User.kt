@@ -21,9 +21,21 @@ class User constructor(
 
     var refreshToken: String? = null
 ): BaseTimeEntity() {
+    var point = 0
 
     override fun toString(): String {
         return "User(loginId='$loginId', email='$email', phoneNumber='$phoneNumber', birth='$birth', uuid=$uuid, refreshToken=$refreshToken)"
     }
 
+    companion object {
+        fun fixture(): User {
+            return User(
+                loginId = "test@test.com",
+                email = "test@test.com",
+                password = "1234",
+                phoneNumber = "01012345678",
+                birth = "20000101",
+            )
+        }
+    }
 }
