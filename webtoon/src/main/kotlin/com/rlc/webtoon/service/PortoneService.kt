@@ -1,10 +1,12 @@
 package com.rlc.webtoon.service
 
-import com.rlc.webtoon.dto.response.PortoneResponse
-import com.rlc.webtoon.exception.RlcServerException
+import com.rlc.webtoon.dto.response.portone.PortoneAccessTokenResponse
+import com.rlc.webtoon.dto.response.portone.PortonePaymentResponse
 import com.rlc.webtoon.feign.PortoneFeignClient
 import com.rlc.webtoon.service.inter.PortoneInterface
+import com.rlc.webtoon.util.importCacheName
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
@@ -16,16 +18,18 @@ class PortoneService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun getAccessToken(impKey: String, impSecret: String): PortoneResponse {
-        val portoneResponse: PortoneResponse = portoneFeignClient.getAccessToken(impKey, impSecret)
+    /**
+     * 로컬 캐시(Caffeine 적용) ttl: 30min
+     */
+    @Cacheable(cacheNames = [importCacheName ], key = "#impKey")
+    override fun getAccessToken(impKey: String, impSecret: String): PortoneAccessTokenResponse {
+        val portonePaymentResponse: PortoneAccessTokenResponse = portoneFeignClient.getAccessToken(impKey, impSecret)
 
-        logger.info("getAccessToken(), portoneResponse:$portoneResponse")
+        logger.info("getAccessToken(), portoneResponse:$portonePaymentResponse")
 
-        if(portoneResponse.equals("0") ) {
-            throw RlcServerException(errorMessage = portoneResponse.message.toString(), errorCode = portoneResponse.code.toString())
-        }
+        portonePaymentResponse.verifyResponse()
 
-        return portoneResponse
+        return portonePaymentResponse
     }
 
     override fun payment(
@@ -37,27 +41,23 @@ class PortoneService(
         birth: String,
         cardPassword: String,
         productName: String
-    ): PortoneResponse {
-        val portoneResponse: PortoneResponse = portoneFeignClient.payment(accessToken, merchantUid, price, cardNumber, expiry, birth, cardPassword, productName)
+    ): PortonePaymentResponse {
+        val portonePaymentResponse: PortonePaymentResponse = portoneFeignClient.payment(accessToken, merchantUid, price, cardNumber, expiry, birth, cardPassword, productName)
 
-        logger.info("payment(), portoneResponse:$portoneResponse")
+        logger.info("payment(), portoneResponse:$portonePaymentResponse")
 
-        if(portoneResponse.code != 0) {
-            throw RlcServerException(errorMessage = portoneResponse.message.toString(), errorCode = portoneResponse.code.toString())
-        }
+        portonePaymentResponse.verifyResponse()
 
-        return portoneResponse
+        return portonePaymentResponse
     }
 
-    override fun cancel(impUid: String, merchantUid: String, price: Int): PortoneResponse {
-        val portoneResponse: PortoneResponse = portoneFeignClient.cancel(impUid, merchantUid, price)
+    override fun cancel(impUid: String, merchantUid: String, price: Int): PortonePaymentResponse {
+        val portonePaymentResponse: PortonePaymentResponse = portoneFeignClient.cancel(impUid, merchantUid, price)
 
-        logger.info("cancel(), portoneResponse:$portoneResponse")
+        logger.info("cancel(), portoneResponse:$portonePaymentResponse")
 
-        if(portoneResponse.code != 0) {
-            throw RlcServerException(errorMessage = portoneResponse.message.toString(), errorCode = portoneResponse.code.toString())
-        }
+        portonePaymentResponse.verifyResponse()
 
-        return portoneResponse
+        return portonePaymentResponse
     }
 }

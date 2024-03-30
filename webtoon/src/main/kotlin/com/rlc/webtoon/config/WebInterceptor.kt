@@ -2,6 +2,7 @@ package com.rlc.webtoon.config
 
 import com.rlc.webtoon.dto.common.ResponseResult
 import com.rlc.webtoon.util.JwtUtil
+import com.rlc.webtoon.util.userUuid
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
@@ -54,6 +55,7 @@ class WebInterceptor(
             return false
         }
 
+        request.setAttribute(userUuid, jwtUtil.getPayload(authorization).subject)
 
         return super.preHandle(request, response, handler)
     }

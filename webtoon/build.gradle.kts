@@ -46,6 +46,12 @@ dependencies {
 
 	//feign
 	implementation ("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+	//cache
+	implementation("org.springframework.boot:spring-boot-starter-cache:3.2.3")
+	//caffeine
+	implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
+
 }
 
 tasks.withType<KotlinCompile> {

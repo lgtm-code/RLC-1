@@ -2,7 +2,6 @@ package com.rlc.webtoon.service
 
 import com.rlc.webtoon.dto.request.UserRequestDto
 import com.rlc.webtoon.dto.response.UserResponseDto
-import com.rlc.webtoon.entity.User
 import com.rlc.webtoon.exception.RlcClientException
 import com.rlc.webtoon.repostiory.UserRepository
 import org.slf4j.LoggerFactory

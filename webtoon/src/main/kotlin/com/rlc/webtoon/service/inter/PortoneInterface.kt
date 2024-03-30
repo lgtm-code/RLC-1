@@ -1,13 +1,14 @@
 package com.rlc.webtoon.service.inter
 
-import com.rlc.webtoon.dto.response.PortoneResponse
+import com.rlc.webtoon.dto.response.portone.PortoneAccessTokenResponse
+import com.rlc.webtoon.dto.response.portone.PortonePaymentResponse
 
 interface PortoneInterface {
 
     /**
      * Import 액세스 토큰 발급.
      */
-    fun getAccessToken(impKey: String, impSecret: String): PortoneResponse
+    fun getAccessToken(impKey: String, impSecret: String): PortoneAccessTokenResponse
 
     /**
      * Import 결제 요청.
@@ -21,7 +22,7 @@ interface PortoneInterface {
         birth: String,
         cardPassword: String,
         productName: String,
-    ): PortoneResponse
+    ): PortonePaymentResponse
 
-    fun cancel(impUid: String, merchantUid: String, price: Int): PortoneResponse
+    fun cancel(impUid: String, merchantUid: String, price: Int): PortonePaymentResponse
 }

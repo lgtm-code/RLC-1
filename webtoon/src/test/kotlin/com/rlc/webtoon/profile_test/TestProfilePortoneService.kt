@@ -1,6 +1,7 @@
 package com.rlc.webtoon.profile_test
 
-import com.rlc.webtoon.dto.response.PortoneResponse
+import com.rlc.webtoon.dto.response.portone.PortoneAccessTokenResponse
+import com.rlc.webtoon.dto.response.portone.PortonePaymentResponse
 import com.rlc.webtoon.service.inter.PortoneInterface
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Component
 @Profile("test")
 class TestProfilePortoneService: PortoneInterface {
 
-    override fun getAccessToken(impKey: String, impSecret: String): PortoneResponse {
-        return PortoneResponse.successResponseFixture("토큰발급 완료")
+    override fun getAccessToken(impKey: String, impSecret: String): PortoneAccessTokenResponse {
+        return PortoneAccessTokenResponse.successResponseFixture()
     }
 
     override fun payment(
@@ -22,11 +23,11 @@ class TestProfilePortoneService: PortoneInterface {
         birth: String,
         cardPassword: String,
         productName: String
-    ): PortoneResponse {
-        return PortoneResponse.successResponseFixture("결제 완료")
+    ): PortonePaymentResponse {
+        return PortonePaymentResponse.successResponseFixture()
     }
 
-    override fun cancel(impUid: String, merchantUid: String, price: Int): PortoneResponse {
-        return PortoneResponse.successResponseFixture("취소처리 완료")
+    override fun cancel(impUid: String, merchantUid: String, price: Int): PortonePaymentResponse {
+        return PortonePaymentResponse.successResponseFixture()
     }
 }

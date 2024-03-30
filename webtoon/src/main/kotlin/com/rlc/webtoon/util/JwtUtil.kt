@@ -107,7 +107,7 @@ class JwtUtil {
         return true
     }
 
-    private fun getPayload(accessToken: String): Claims {
+    fun getPayload(accessToken: String): Claims {
         return Jwts.parser()
             .verifyWith(Keys.hmacShaKeyFor(Base64.getEncoder().encode(secretKey.toByteArray())))
             .build()
